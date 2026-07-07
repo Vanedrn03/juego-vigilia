@@ -1,0 +1,119 @@
+// Esquema de datos del juego bíblico tipo "¿Quién Quiere Ser Millonario?"
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OptionKey {
+  A
+  B
+  C
+  D
+}
+
+enum Category {
+  ANTIGUO_TESTAMENTO
+  NUEVO_TESTAMENTO
+  PERSONAJES
+  DOCTRINA
+  VIDA_DE_JESUS
+  GENERAL
+}
+
+enum SessionMode {
+  TEAMS
+  INDIVIDUAL
+}
+
+enum SessionStatus {
+  SETUP
+  IN_PROGRESS
+  FINISHED
+}
+
+enum ParticipantStatus {
+  ACTIVE
+  WON
+  WALKED_AWAY
+  LOST
+}
+
+model Question {
+  id            String   @id @default(cuid())
+  text          String
+  optionA       String
+  optionB       String
+  optionC       String
+  optionD       String
+  correctOption OptionKey
+  difficulty    Int
+  category      Category
+  bibleVersion  String   @default("RV60")
+  verseRef      String?
+  verseText     String?
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessionQuestions SessionQuestion[]
+}
+
+model PrizeLevel {
+  id           String  @id @default(cuid())
+  step         Int     @unique
+  label        String
+  points       Int
+  isCheckpoint Boolean @default(false)
+}
+
+model GameSession {
+  id                    String        @id @default(cuid())
+  mode                  SessionMode
+  status                SessionStatus @default(SETUP)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  participants     Participant[]
+  sessionQuestions SessionQuestion[]
+}
+
+model Participant {
+  id                 String            @id @default(cuid())
+  sessionId          String
+  session            GameSession       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  name               String
+  order              Int
+  score              Int               @default(0)
+  currentStep        Int               @default(0)
+  status             ParticipantStatus @default(ACTIVE)
+  lifelineFiftyUsed  Boolean           @default(false)
+  lifelineLeaderUsed Boolean           @default(false)
+  lifelineTeamUsed   Boolean           @default(false)
+
+  sessionQuestions SessionQuestion[]
+}
+
+// Preguntas ya barajadas y asignadas a un participante para una partida concreta.
+// participantId permite que cada equipo/jugador tenga su propia escalera
+// independiente de 15 preguntas dentro de la misma sesión.
+model SessionQuestion {
+  id                   String      @id @default(cuid())
+  sessionId            String
+  session              GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  participantId        String
+  participant          Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  questionId           String
+  question             Question    @relation(fields: [questionId], references: [id])
+  step                 Int
+  revealedFiftyOptions Json?
+  answeredOption       OptionKey?
+  isCorrect            Boolean?
+  answeredAt           DateTime?
+
+  @@unique([participantId, step])
+}
