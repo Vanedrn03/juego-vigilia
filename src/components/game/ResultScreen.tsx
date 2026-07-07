@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ParticipantView } from "@/lib/game/types";
 
 const STATUS_LABEL: Record<ParticipantView["status"], string> = {
@@ -43,6 +44,21 @@ export function ResultScreen({ participants }: { participants: ParticipantView[]
       {!winner && sorted.length > 1 && (
         <p className="text-xl font-semibold text-amber-300">¡Empate!</p>
       )}
+
+      <div className="flex flex-wrap justify-center gap-3">
+        <Link
+          href="/admin/sesiones/nueva"
+          className="rounded bg-amber-500 px-5 py-2 font-semibold text-slate-950 hover:bg-amber-400"
+        >
+          Iniciar otra partida
+        </Link>
+        <Link
+          href="/admin/dashboard"
+          className="rounded border border-slate-700 px-5 py-2 hover:border-amber-400"
+        >
+          Volver al panel
+        </Link>
+      </div>
     </div>
   );
 }
