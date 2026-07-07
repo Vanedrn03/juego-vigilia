@@ -13,7 +13,7 @@ export default function LoginPage() {
         className="w-full max-w-sm rounded-lg border border-amber-500/30 bg-slate-900 p-8 shadow-xl"
       >
         <h1 className="mb-1 text-center text-xl font-bold text-amber-400">
-          ¿Quién Quiere Ser Millonario?
+          ¿Quién Quiere Ser Bendecido?
         </h1>
         <p className="mb-6 text-center text-sm text-slate-400">
           Panel de administración · Misión Cristiana Elim

@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/validation/question";
+import { BackLink } from "@/components/admin/BackLink";
 import { createSessionAction } from "./actions";
 
 export default function NuevaSesionPage() {
@@ -13,6 +14,7 @@ export default function NuevaSesionPage() {
 
   return (
     <div className="max-w-2xl">
+      <BackLink href="/admin/dashboard" label="Volver al panel" />
       <h1 className="mb-6 text-2xl font-bold text-amber-400">Nueva partida</h1>
 
       <form action={formAction} className="space-y-6">

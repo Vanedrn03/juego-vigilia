@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { BackLink } from "@/components/admin/BackLink";
 
 export default async function SesionAdminPage({
   params,
@@ -17,6 +18,7 @@ export default async function SesionAdminPage({
 
   return (
     <div>
+      <BackLink href="/admin/dashboard" label="Volver al panel" />
       <h1 className="mb-2 text-2xl font-bold text-amber-400">
         Partida {session.mode === "TEAMS" ? "2 equipos" : "1 vs 1"}
       </h1>

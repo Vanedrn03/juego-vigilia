@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { BackLink } from "@/components/admin/BackLink";
 import { updateLadderAction } from "./actions";
 
 export default async function EscaleraPage() {
@@ -7,6 +8,7 @@ export default async function EscaleraPage() {
 
   return (
     <div>
+      <BackLink href="/admin/dashboard" label="Volver al panel" />
       <h1 className="mb-2 text-2xl font-bold text-amber-400">Escalera de premios</h1>
       <p className="mb-6 text-sm text-slate-400">
         Marca los niveles &quot;checkpoint&quot; (casillas de seguridad): si un participante

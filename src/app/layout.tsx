@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "¿Quién Quiere Ser Millonario? Bíblico | Misión Cristiana Elim",
+  title: "¿Quién Quiere Ser Bendecido? | Misión Cristiana Elim",
   description: "Juego de trivia bíblica para la vigilia juvenil",
 };
 

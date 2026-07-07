@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/validation/question";
+import { BackLink } from "@/components/admin/BackLink";
 import { deleteQuestionAction, toggleQuestionActiveAction } from "./actions";
 import type { Prisma } from "@/generated/prisma/client";
 
@@ -36,6 +37,7 @@ export default async function PreguntasPage({
 
   return (
     <div>
+      <BackLink href="/admin/dashboard" label="Volver al panel" />
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-amber-400">Banco de preguntas</h1>
         <Link

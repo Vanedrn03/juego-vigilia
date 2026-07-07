@@ -1,4 +1,4 @@
-// Esquema de datos del juego bíblico tipo "¿Quién Quiere Ser Millonario?"
+// Esquema de datos: "¿Quién Quiere Ser Bendecido?" y "100 Cristianos Dijeron"
 
 generator client {
   provider = "prisma-client"
@@ -116,4 +116,73 @@ model SessionQuestion {
   answeredAt           DateTime?
 
   @@unique([participantId, step])
+}
+
+// ---- "100 Cristianos Dijeron" (Family Feud) ----
+
+enum FeudRoundPhase {
+  FACEOFF
+  PLAYING
+  STEAL
+  DONE
+}
+
+enum FeudTeam {
+  TEAM_A
+  TEAM_B
+}
+
+model FeudQuestion {
+  id        String   @id @default(cuid())
+  text      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  answers FeudAnswer[]
+  rounds  FeudSessionRound[]
+}
+
+model FeudAnswer {
+  id         String       @id @default(cuid())
+  questionId String
+  question   FeudQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  text       String
+  points     Int
+  rank       Int
+
+  @@unique([questionId, rank])
+}
+
+model FeudSession {
+  id         String        @id @default(cuid())
+  teamAName  String
+  teamBName  String
+  teamAScore Int           @default(0)
+  teamBScore Int           @default(0)
+  status     SessionStatus @default(SETUP)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  rounds FeudSessionRound[]
+}
+
+// Cada fila es una ronda completa de una partida, con su propio estado
+// FACEOFF -> PLAYING -> STEAL -> DONE. Todas las rondas de una partida se
+// crean de una vez al iniciarla; "la ronda actual" es la primera con phase != DONE.
+model FeudSessionRound {
+  id                String         @id @default(cuid())
+  sessionId         String
+  session           FeudSession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  questionId        String
+  question          FeudQuestion   @relation(fields: [questionId], references: [id])
+  roundNumber       Int
+  phase             FeudRoundPhase @default(FACEOFF)
+  controllingTeam   FeudTeam?
+  strikes           Int            @default(0)
+  revealedAnswerIds Json           @default("[]")
+  pot               Int            @default(0)
+  wonBy             FeudTeam?
+
+  @@unique([sessionId, roundNumber])
 }

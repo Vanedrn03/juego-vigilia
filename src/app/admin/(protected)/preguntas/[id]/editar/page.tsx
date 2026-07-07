@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { QuestionForm } from "@/components/admin/QuestionForm";
+import { BackLink } from "@/components/admin/BackLink";
 import { updateQuestionAction } from "../../actions";
 
 export default async function EditarPreguntaPage({
@@ -16,6 +17,7 @@ export default async function EditarPreguntaPage({
 
   return (
     <div>
+      <BackLink href="/admin/preguntas" label="Volver a preguntas" />
       <h1 className="mb-6 text-2xl font-bold text-amber-400">Editar pregunta</h1>
       <QuestionForm
         action={boundAction}

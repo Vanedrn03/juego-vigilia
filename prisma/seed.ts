@@ -371,6 +371,132 @@ const questions = [
   },
 ] as const;
 
+const feudQuestions = [
+  {
+    text: "Nombra algo que la gente hace en la iglesia",
+    answers: [
+      { text: "Cantar / alabar", points: 35 },
+      { text: "Orar", points: 25 },
+      { text: "Escuchar la predicación", points: 20 },
+      { text: "Saludar a otros", points: 12 },
+      { text: "Dar la ofrenda", points: 8 },
+    ],
+  },
+  {
+    text: "Nombra un libro de la Biblia que la gente conoce",
+    answers: [
+      { text: "Génesis", points: 30 },
+      { text: "Salmos", points: 22 },
+      { text: "Juan", points: 20 },
+      { text: "Apocalipsis", points: 15 },
+      { text: "Mateo", points: 8 },
+      { text: "Éxodo", points: 5 },
+    ],
+  },
+  {
+    text: "Nombra algo que dirías en una oración antes de comer",
+    answers: [
+      { text: "Gracias por los alimentos", points: 40 },
+      { text: "Bendice esta comida", points: 25 },
+      { text: "En el nombre de Jesús", points: 18 },
+      { text: "Gracias por la familia", points: 10 },
+      { text: "Amén", points: 7 },
+    ],
+  },
+  {
+    text: "Nombra un instrumento musical que se usa en una alabanza",
+    answers: [
+      { text: "Guitarra", points: 32 },
+      { text: "Batería", points: 24 },
+      { text: "Piano/teclado", points: 22 },
+      { text: "Bajo", points: 12 },
+      { text: "Pandereta", points: 10 },
+    ],
+  },
+  {
+    text: "Nombra algo que llevarías a un campamento cristiano de jóvenes",
+    answers: [
+      { text: "Biblia", points: 30 },
+      { text: "Ropa/cambio de ropa", points: 24 },
+      { text: "Cuaderno para apuntes", points: 16 },
+      { text: "Guitarra", points: 12 },
+      { text: "Linterna", points: 10 },
+      { text: "Snacks", points: 8 },
+    ],
+  },
+  {
+    text: "Nombra un milagro que hizo Jesús",
+    answers: [
+      { text: "Multiplicar los panes y los peces", points: 28 },
+      { text: "Caminar sobre el agua", points: 24 },
+      { text: "Resucitar a Lázaro", points: 20 },
+      { text: "Convertir el agua en vino", points: 16 },
+      { text: "Sanar a un ciego", points: 12 },
+    ],
+  },
+  {
+    text: "Nombra algo que la gente hace en Navidad en la iglesia",
+    answers: [
+      { text: "Obra/pastorela de Navidad", points: 30 },
+      { text: "Cantar villancicos", points: 26 },
+      { text: "Armar el pesebre/nacimiento", points: 20 },
+      { text: "Repartir regalos", points: 14 },
+      { text: "Cena navideña", points: 10 },
+    ],
+  },
+  {
+    text: "Nombra un profeta del Antiguo Testamento",
+    answers: [
+      { text: "Isaías", points: 26 },
+      { text: "Jeremías", points: 22 },
+      { text: "Daniel", points: 20 },
+      { text: "Jonás", points: 18 },
+      { text: "Ezequiel", points: 14 },
+    ],
+  },
+  {
+    text: "Nombra algo que se necesita para servir en la iglesia",
+    answers: [
+      { text: "Disposición / buena actitud", points: 28 },
+      { text: "Tiempo", points: 24 },
+      { text: "Compromiso", points: 20 },
+      { text: "Un don o talento", points: 16 },
+      { text: "Permiso de los líderes", points: 12 },
+    ],
+  },
+  {
+    text: "Nombra un fruto del Espíritu (Gálatas 5:22-23)",
+    answers: [
+      { text: "Amor", points: 26 },
+      { text: "Gozo", points: 20 },
+      { text: "Paz", points: 18 },
+      { text: "Paciencia", points: 16 },
+      { text: "Bondad", points: 12 },
+      { text: "Dominio propio", points: 8 },
+    ],
+  },
+  {
+    text: "Nombra algo que la gente pierde y ora para encontrar",
+    answers: [
+      { text: "Las llaves", points: 30 },
+      { text: "El celular", points: 26 },
+      { text: "La cartera/billetera", points: 20 },
+      { text: "Un documento importante", points: 14 },
+      { text: "Un objeto de valor sentimental", points: 10 },
+    ],
+  },
+  {
+    text: "Nombra algo que se hace en un bautismo",
+    answers: [
+      { text: "Sumergir en agua", points: 32 },
+      { text: "Dar un testimonio", points: 24 },
+      { text: "Cantar", points: 18 },
+      { text: "Orar por la persona", points: 16 },
+      { text: "Celebrar con la familia", points: 10 },
+    ],
+  },
+] as const;
+
 async function main() {
   console.log("Sembrando escalera de premios...");
   for (const level of prizeLevels) {
@@ -403,6 +529,22 @@ async function main() {
   }
 
   console.log(`Listo: ${prizeLevels.length} niveles y ${questions.length} preguntas.`);
+
+  console.log("Sembrando preguntas de 100 Cristianos Dijeron...");
+  for (const q of feudQuestions) {
+    const existing = await prisma.feudQuestion.findFirst({ where: { text: q.text } });
+    if (existing) continue;
+    await prisma.feudQuestion.create({
+      data: {
+        text: q.text,
+        answers: {
+          create: q.answers.map((a, i) => ({ text: a.text, points: a.points, rank: i + 1 })),
+        },
+      },
+    });
+  }
+
+  console.log(`Listo: ${feudQuestions.length} preguntas de encuesta.`);
 }
 
 main()
