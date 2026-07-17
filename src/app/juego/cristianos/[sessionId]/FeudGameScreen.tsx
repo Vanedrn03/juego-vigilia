@@ -247,7 +247,10 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
               />
             )}
 
-            {displayRound && (displayRound.phase === "PLAYING" || displayRound.phase === "STEAL") && (
+            {displayRound &&
+              (displayRound.phase === "PLAYING" ||
+                displayRound.phase === "STEAL" ||
+                displayRound.phase === "DONE") && (
               <div
                 key={displayRound.id}
                 className="animate-[fadein_0.4s_ease-out] space-y-5 rounded-xl border border-amber-500/20 bg-white p-6 dark:bg-slate-900/80 shadow-xl"
@@ -256,7 +259,9 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
                   <p className="mb-1 text-base font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
                     {displayRound.phase === "STEAL"
                       ? `Robo — el otro equipo tiene un intento`
-                      : `${controllingTeamName} tiene el control`}
+                      : displayRound.phase === "DONE"
+                        ? "Ronda terminada"
+                        : `${controllingTeamName} tiene el control`}
                   </p>
                   <h1 className="text-5xl font-bold lg:text-6xl">{displayRound.questionText}</h1>
                 </div>
