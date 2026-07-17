@@ -13,6 +13,8 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    // Sincroniza con la clase que ya aplicó el script anti-parpadeo en <html>.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 

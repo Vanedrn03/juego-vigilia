@@ -10,7 +10,7 @@ import { StrikeIndicator } from "@/components/feud/StrikeIndicator";
 import { FeudResultScreen } from "@/components/feud/FeudResultScreen";
 import { Confetti } from "@/components/Confetti";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { playCelebration, playFlip, playStrike, playTick, playTimeUp, playWhoosh } from "@/lib/sound";
+import { playAssign, playCelebration, playFlip, playStrike, playTick, playTimeUp } from "@/lib/sound";
 
 const TEAM_NAME_FIELD: Record<FeudTeamKey, "teamAName" | "teamBName"> = {
   TEAM_A: "teamAName",
@@ -18,8 +18,6 @@ const TEAM_NAME_FIELD: Record<FeudTeamKey, "teamAName" | "teamBName"> = {
 };
 
 const TURN_SECONDS = 10;
-/** Cuánto se deja el tablero visible con el último cambio antes de mostrar el resumen de la ronda. */
-const REVEAL_PAUSE_MS = 1500;
 const STEAL_TRANSITION_MS = 1200;
 
 export function FeudGameScreen({ session }: { session: FeudSessionView }) {
@@ -33,6 +31,11 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [overrideRound, setOverrideRound] = useState<FeudRoundView | null>(null);
+  const [roundDone, setRoundDone] = useState<{
+    roundNumber: number;
+    wonBy: FeudTeamKey | null;
+    pot: number;
+  } | null>(null);
   const [finishedRound, setFinishedRound] = useState<{
     roundNumber: number;
     wonBy: FeudTeamKey | null;
@@ -45,6 +48,7 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
     setTrackedKey(currentKey);
     setError(null);
     setFinishedRound(null);
+    setRoundDone(null);
     setOverrideRound(null);
   }
 
@@ -61,8 +65,8 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
 
   useEffect(() => {
     autoStrikeFired.current = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTurnSecondsLeft(timerActive ? TURN_SECONDS : null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turnKey, timerActive]);
 
   useEffect(() => {
@@ -115,7 +119,7 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
     try {
       const data = await callApi("faceoff", { roundId: currentRound.id, team });
       setOverrideRound(data.round as FeudRoundView);
-      playWhoosh();
+      playAssign();
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al asignar el control");
@@ -134,15 +138,13 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
       setOverrideRound(updatedRound);
       playFlip();
       if (updatedRound.phase === "DONE") {
-        setTimeout(() => {
-          setFinishedRound({
-            roundNumber: currentRound.roundNumber,
-            wonBy: updatedRound.wonBy,
-            pot: updatedRound.pot,
-          });
-          if (updatedRound.wonBy) playCelebration();
-          setPending(false);
-        }, REVEAL_PAUSE_MS);
+        setRoundDone({
+          roundNumber: currentRound.roundNumber,
+          wonBy: updatedRound.wonBy,
+          pot: updatedRound.pot,
+        });
+        if (updatedRound.wonBy) playCelebration();
+        setPending(false);
       } else {
         router.refresh();
         setPending(false);
@@ -163,15 +165,13 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
       setOverrideRound(updatedRound);
       playStrike();
       if (updatedRound.phase === "DONE") {
-        setTimeout(() => {
-          setFinishedRound({
-            roundNumber: currentRound.roundNumber,
-            wonBy: updatedRound.wonBy,
-            pot: updatedRound.pot,
-          });
-          if (updatedRound.wonBy) playCelebration();
-          setPending(false);
-        }, REVEAL_PAUSE_MS);
+        setRoundDone({
+          roundNumber: currentRound.roundNumber,
+          wonBy: updatedRound.wonBy,
+          pot: updatedRound.pot,
+        });
+        if (updatedRound.wonBy) playCelebration();
+        setPending(false);
       } else if (updatedRound.phase === "STEAL") {
         setTimeout(() => {
           router.refresh();
@@ -187,8 +187,13 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
     }
   }
 
+  function handleShowSummary() {
+    setFinishedRound(roundDone);
+  }
+
   function handleContinue() {
     setFinishedRound(null);
+    setRoundDone(null);
     setOverrideRound(null);
     router.refresh();
   }
@@ -209,15 +214,15 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
           controllingTeam={currentRound.controllingTeam}
         />
 
-        <p className="text-sm text-slate-500 dark:text-slate-400">Ronda {currentRound.roundNumber}</p>
+        <p className="text-base text-slate-500 dark:text-slate-400">Ronda {currentRound.roundNumber}</p>
 
         {finishedRound ? (
           <div className="relative animate-[pop-in_0.35s_ease-out,celebrate-glow_1.8s_ease-in-out_infinite] space-y-4 overflow-hidden rounded-xl border border-amber-500/20 bg-white p-6 dark:bg-slate-900/80 text-center shadow-xl">
             {finishedRound.wonBy && <Confetti />}
-            <p className="text-sm font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
+            <p className="text-base font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
               Ronda {finishedRound.roundNumber} terminada
             </p>
-            <p className="text-xl text-slate-700 dark:text-slate-300">
+            <p className="text-2xl text-slate-700 dark:text-slate-300">
               {finishedRound.wonBy
                 ? `¡${session[TEAM_NAME_FIELD[finishedRound.wonBy]]} se lleva ${finishedRound.pot} puntos! 🎉`
                 : "Ronda terminada"}
@@ -225,7 +230,7 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
             <button
               type="button"
               onClick={handleContinue}
-              className="rounded bg-amber-500 px-5 py-2 font-semibold text-slate-950 hover:bg-amber-400"
+              className="rounded bg-amber-500 px-6 py-3 text-lg font-semibold text-slate-950 hover:bg-amber-400"
             >
               Siguiente ronda
             </button>
@@ -247,19 +252,21 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
                 key={displayRound.id}
                 className="animate-[fadein_0.4s_ease-out] space-y-5 rounded-xl border border-amber-500/20 bg-white p-6 dark:bg-slate-900/80 shadow-xl"
               >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
-                      {displayRound.phase === "STEAL"
-                        ? `Robo — el otro equipo tiene un intento`
-                        : `${controllingTeamName} tiene el control`}
-                    </p>
-                    <h1 className="text-3xl font-bold lg:text-4xl">{displayRound.questionText}</h1>
-                  </div>
+                <div>
+                  <p className="mb-1 text-base font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                    {displayRound.phase === "STEAL"
+                      ? `Robo — el otro equipo tiene un intento`
+                      : `${controllingTeamName} tiene el control`}
+                  </p>
+                  <h1 className="text-5xl font-bold lg:text-6xl">{displayRound.questionText}</h1>
+                </div>
 
-                  {turnSecondsLeft !== null && (
+                <Board answers={displayRound.answers} disabled={pending} onReveal={handleReveal} />
+
+                {turnSecondsLeft !== null && (
+                  <div className="flex justify-center">
                     <div
-                      className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 font-mono text-2xl font-bold ${
+                      className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-4 font-mono text-3xl font-bold ${
                         turnSecondsLeft <= 5
                           ? "border-red-500 text-red-600 dark:text-red-400 [animation:timer-pulse_1s_ease-in-out_infinite]"
                           : "border-amber-400 text-amber-700 dark:text-amber-300"
@@ -267,26 +274,38 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
                     >
                       {turnSecondsLeft}
                     </div>
-                  )}
-                </div>
-
-                <Board answers={displayRound.answers} disabled={pending} onReveal={handleReveal} />
+                  </div>
+                )}
 
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <StrikeIndicator strikes={displayRound.strikes} />
-                  <button
-                    type="button"
-                    disabled={pending}
-                    onClick={handleStrike}
-                    className="rounded border border-red-500 px-5 py-2 font-semibold text-red-600 dark:text-red-400 hover:bg-red-700 hover:text-white disabled:opacity-40"
-                  >
-                    Marcar strike
-                  </button>
+                  {!roundDone && (
+                    <button
+                      type="button"
+                      disabled={pending}
+                      onClick={handleStrike}
+                      className="rounded border border-red-500 px-6 py-3 text-lg font-semibold text-red-600 dark:text-red-400 hover:bg-red-700 hover:text-white disabled:opacity-40"
+                    >
+                      Marcar strike
+                    </button>
+                  )}
                 </div>
 
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-lg text-slate-500 dark:text-slate-400">
                   Bote de la ronda: <span className="font-mono text-amber-700 dark:text-amber-300">{displayRound.pot}</span>
                 </p>
+
+                {roundDone && (
+                  <div className="flex justify-center border-t border-amber-500/20 pt-4">
+                    <button
+                      type="button"
+                      onClick={handleShowSummary}
+                      className="animate-[pop-in_0.3s_ease-out] rounded bg-amber-500 px-8 py-3 text-xl font-semibold text-slate-950 hover:bg-amber-400"
+                    >
+                      Continuar →
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </>

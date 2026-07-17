@@ -18,7 +18,7 @@ export function OptionButton({
   onClick: () => void;
 }) {
   if (hidden) {
-    return <div className="h-16 rounded-lg opacity-0" aria-hidden />;
+    return <div className="h-24 rounded-lg opacity-0" aria-hidden />;
   }
 
   const stateClasses =
@@ -37,9 +37,9 @@ export function OptionButton({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className={`flex h-20 w-full items-center gap-3 rounded-lg border px-4 text-left text-2xl font-medium transition disabled:cursor-not-allowed ${stateClasses}`}
+      className={`flex h-24 w-full items-center gap-3 rounded-lg border px-4 text-left text-3xl font-medium transition disabled:cursor-not-allowed ${stateClasses}`}
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-current font-bold">
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-current text-xl font-bold">
         {LABELS[optionKey]}
       </span>
       <span>{text}</span>

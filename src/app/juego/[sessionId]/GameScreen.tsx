@@ -197,12 +197,12 @@ export function GameScreen({
             key={currentSQ.id}
             className="animate-[fadein_0.4s_ease-out] rounded-xl border border-amber-500/20 bg-white p-6 dark:bg-slate-900/80 shadow-xl"
           >
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
+            <p className="mb-2 text-base font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
               Nivel {currentSQ.step} · {activeParticipant.name}
             </p>
-            <h1 className="text-4xl font-bold leading-snug lg:text-5xl">{q.text}</h1>
+            <h1 className="text-5xl font-bold leading-snug lg:text-6xl">{q.text}</h1>
             {q.verseRef && (
-              <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Referencia: {q.verseRef}</p>
+              <p className="mt-2 text-base text-slate-500 dark:text-slate-400">Referencia: {q.verseRef}</p>
             )}
           </div>
 
@@ -256,7 +256,7 @@ export function GameScreen({
                   type="button"
                   disabled={!selectedOption || pending}
                   onClick={handleConfirm}
-                  className="rounded bg-amber-500 px-5 py-2 font-semibold text-slate-950 hover:bg-amber-400 disabled:opacity-40"
+                  className="rounded bg-amber-500 px-6 py-3 text-lg font-semibold text-slate-950 hover:bg-amber-400 disabled:opacity-40"
                 >
                   {pending ? "Enviando..." : "Confirmar respuesta"}
                 </button>
@@ -264,7 +264,7 @@ export function GameScreen({
                   type="button"
                   disabled={pending}
                   onClick={handleWalkAway}
-                  className="rounded border border-slate-300 dark:border-slate-700 px-5 py-2 hover:border-amber-400 disabled:opacity-40"
+                  className="rounded border border-slate-300 dark:border-slate-700 px-6 py-3 text-lg hover:border-amber-400 disabled:opacity-40"
                 >
                   Retirarse con el puntaje actual
                 </button>
@@ -274,7 +274,7 @@ export function GameScreen({
               <button
                 type="button"
                 onClick={handleContinue}
-                className="rounded bg-amber-500 px-5 py-2 font-semibold text-slate-950 hover:bg-amber-400"
+                className="rounded bg-amber-500 px-6 py-3 text-lg font-semibold text-slate-950 hover:bg-amber-400"
               >
                 {revealResult.outcome === "LOST"
                   ? "Ver resultado"
