@@ -19,27 +19,27 @@ export default async function SesionCristianosAdminPage({
   return (
     <div>
       <BackLink href="/admin/dashboard" label="Volver al panel" />
-      <h1 className="mb-2 text-2xl font-bold text-amber-600">
+      <h1 className="mb-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
         {session.teamAName} vs {session.teamBName}
       </h1>
-      <p className="mb-6 text-sm text-slate-500">Estado: {session.status}</p>
+      <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">Estado: {session.status}</p>
 
       <div className="mb-6 grid grid-cols-2 gap-4 sm:w-96">
-        <div className="rounded-lg border border-slate-200 bg-slate-100 p-4">
-          <p className="text-sm text-slate-500">{session.teamAName}</p>
+        <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 p-4">
+          <p className="text-sm text-slate-500 dark:text-slate-400">{session.teamAName}</p>
           <p className="text-2xl font-bold">{session.teamAScore.toLocaleString("es")}</p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-slate-100 p-4">
-          <p className="text-sm text-slate-500">{session.teamBName}</p>
+        <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 p-4">
+          <p className="text-sm text-slate-500 dark:text-slate-400">{session.teamBName}</p>
           <p className="text-2xl font-bold">{session.teamBScore.toLocaleString("es")}</p>
         </div>
       </div>
 
-      <ul className="mb-6 divide-y divide-slate-200 rounded-lg border border-slate-200">
+      <ul className="mb-6 divide-y divide-slate-200 dark:divide-slate-800 rounded-lg border border-slate-200 dark:border-slate-800">
         {session.rounds.map((r) => (
           <li key={r.id} className="flex items-center justify-between px-4 py-3">
             <span>Ronda {r.roundNumber}</span>
-            <span className="text-xs text-slate-500">{r.phase}</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">{r.phase}</span>
           </li>
         ))}
       </ul>

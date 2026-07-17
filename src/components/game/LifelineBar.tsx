@@ -18,8 +18,8 @@ export function LifelineBar({
   const btnClass = (used: boolean) =>
     `rounded-full border px-4 py-2 text-sm font-semibold transition ${
       used
-        ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-600 line-through"
-        : "border-amber-400 text-amber-700 hover:bg-amber-500 hover:text-slate-950"
+        ? "cursor-not-allowed border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 line-through"
+        : "border-amber-400 text-amber-700 dark:text-amber-300 hover:bg-amber-500 hover:text-slate-950"
     }`;
 
   return (

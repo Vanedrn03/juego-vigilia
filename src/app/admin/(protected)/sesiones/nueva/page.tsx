@@ -15,11 +15,11 @@ export default function NuevaSesionPage() {
   return (
     <div className="max-w-2xl">
       <BackLink href="/admin/dashboard" label="Volver al panel" />
-      <h1 className="mb-6 text-2xl font-bold text-amber-600">Nueva partida</h1>
+      <h1 className="mb-6 text-2xl font-bold text-amber-600 dark:text-amber-400">Nueva partida</h1>
 
       <form action={formAction} className="space-y-6">
         <div>
-          <label className="mb-2 block text-sm text-slate-700">Modo de juego</label>
+          <label className="mb-2 block text-sm text-slate-700 dark:text-slate-300">Modo de juego</label>
           <div className="flex gap-4">
             <label className="flex items-center gap-2">
               <input
@@ -46,25 +46,25 @@ export default function NuevaSesionPage() {
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm text-slate-700">{nameLabels[0]}</label>
+            <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">{nameLabels[0]}</label>
             <input
               name="participantAName"
               required
-              className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+              className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-slate-700">{nameLabels[1]}</label>
+            <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">{nameLabels[1]}</label>
             <input
               name="participantBName"
               required
-              className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+              className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-2 block text-sm text-slate-700">
+          <label className="mb-2 block text-sm text-slate-700 dark:text-slate-300">
             Categorías a incluir (recomendado: todas)
           </label>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -79,31 +79,31 @@ export default function NuevaSesionPage() {
 
         <div className="grid grid-cols-2 gap-3 sm:w-64">
           <div>
-            <label className="mb-1 block text-sm text-slate-700">Dificultad mín.</label>
+            <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Dificultad mín.</label>
             <input
               name="minDifficulty"
               type="number"
               min={1}
               max={15}
               defaultValue={1}
-              className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+              className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-slate-700">Dificultad máx.</label>
+            <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Dificultad máx.</label>
             <input
               name="maxDifficulty"
               type="number"
               min={1}
               max={15}
               defaultValue={15}
-              className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+              className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
             />
           </div>
         </div>
 
         {state?.error && (
-          <p className="rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700">
+          <p className="rounded border border-red-300 dark:border-red-500/40 bg-red-50 dark:bg-red-950/40 p-3 text-sm text-red-700 dark:text-red-300">
             {state.error}
           </p>
         )}

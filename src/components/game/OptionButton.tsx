@@ -27,10 +27,10 @@ export function OptionButton({
       : revealState === "incorrect"
         ? "animate-[strike-shake_0.4s_ease-out] bg-red-700 border-red-400 text-white"
         : revealState === "dimmed"
-          ? "opacity-40 border-slate-300 bg-slate-100"
+          ? "opacity-40 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900"
           : selected
-            ? "border-amber-400 bg-amber-500/20 text-amber-900"
-            : "border-slate-300 bg-slate-100 text-slate-900 hover:border-amber-400";
+            ? "border-amber-400 bg-amber-500/20 text-amber-900 dark:text-amber-200"
+            : "border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 hover:border-amber-400";
 
   return (
     <button

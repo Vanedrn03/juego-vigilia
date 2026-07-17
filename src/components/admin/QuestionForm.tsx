@@ -34,25 +34,25 @@ export function QuestionForm({
   return (
     <form action={formAction} className="max-w-2xl space-y-5">
       <div>
-        <label className="mb-1 block text-sm text-slate-700">Pregunta</label>
+        <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Pregunta</label>
         <textarea
           name="text"
           required
           defaultValue={defaults?.text}
           rows={2}
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+          className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
         />
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {(["A", "B", "C", "D"] as const).map((key) => (
           <div key={key}>
-            <label className="mb-1 block text-sm text-slate-700">Opción {key}</label>
+            <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Opción {key}</label>
             <input
               name={`option${key}`}
               required
               defaultValue={defaults?.[`option${key}` as "optionA"]}
-              className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+              className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
             />
           </div>
         ))}
@@ -60,11 +60,11 @@ export function QuestionForm({
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div>
-          <label className="mb-1 block text-sm text-slate-700">Opción correcta</label>
+          <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Opción correcta</label>
           <select
             name="correctOption"
             defaultValue={defaults?.correctOption ?? "A"}
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+            className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
           >
             {OPTION_KEYS.map((k) => (
               <option key={k} value={k}>
@@ -75,7 +75,7 @@ export function QuestionForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm text-slate-700">Dificultad (1-15)</label>
+          <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Dificultad (1-15)</label>
           <input
             name="difficulty"
             type="number"
@@ -83,16 +83,16 @@ export function QuestionForm({
             max={15}
             required
             defaultValue={defaults?.difficulty ?? 1}
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+            className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm text-slate-700">Categoría</label>
+          <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Categoría</label>
           <select
             name="category"
             defaultValue={defaults?.category ?? "GENERAL"}
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+            className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -105,48 +105,48 @@ export function QuestionForm({
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm text-slate-700">Versión bíblica</label>
+          <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">Versión bíblica</label>
           <input
             name="bibleVersion"
             defaultValue={defaults?.bibleVersion ?? "RV60"}
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+            className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-slate-700">
+          <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">
             Referencia (opcional, ej. Juan 3:16)
           </label>
           <input
             name="verseRef"
             defaultValue={defaults?.verseRef ?? ""}
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+            className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-slate-700">
+        <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">
           Nota/paráfrasis de apoyo (opcional, no cites el versículo completo)
         </label>
         <textarea
           name="verseText"
           rows={2}
           defaultValue={defaults?.verseText ?? ""}
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
+          className="w-full rounded border border-slate-300 dark:border-slate-700 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400 dark:bg-slate-800 dark:text-white"
         />
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-slate-700">
+      <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
         <input
           type="checkbox"
           name="active"
           defaultChecked={defaults?.active ?? true}
-          className="h-4 w-4 rounded border-slate-300 bg-white"
+          className="h-4 w-4 rounded border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
         />
         Pregunta activa (disponible para partidas)
       </label>
 
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state?.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
 
       <button
         type="submit"

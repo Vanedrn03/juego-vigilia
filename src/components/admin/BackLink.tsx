@@ -4,7 +4,7 @@ export function BackLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-amber-700"
+      className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300"
     >
       ← {label}
     </Link>

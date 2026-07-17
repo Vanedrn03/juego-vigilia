@@ -27,6 +27,17 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          // Se aplica antes de pintar para evitar el parpadeo del tema incorrecto.
+          dangerouslySetInnerHTML={{
+            __html: `try {
+              var t = localStorage.getItem("vigilia-theme");
+              if (t === "dark") document.documentElement.classList.add("dark");
+            } catch (e) {}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

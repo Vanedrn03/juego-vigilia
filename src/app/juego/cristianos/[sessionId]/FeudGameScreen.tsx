@@ -9,6 +9,7 @@ import { Board } from "@/components/feud/Board";
 import { StrikeIndicator } from "@/components/feud/StrikeIndicator";
 import { FeudResultScreen } from "@/components/feud/FeudResultScreen";
 import { Confetti } from "@/components/Confetti";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { playCelebration, playFlip, playStrike, playTick, playTimeUp, playWhoosh } from "@/lib/sound";
 
 const TEAM_NAME_FIELD: Record<FeudTeamKey, "teamAName" | "teamBName"> = {
@@ -84,7 +85,8 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
 
   if (!currentRound) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-white p-6 text-slate-900">
+      <div className="relative min-h-screen bg-gradient-to-b from-amber-50 dark:from-slate-950 via-white dark:via-slate-950 to-white dark:to-blue-950 p-6 text-slate-900 dark:text-slate-100">
+        <ThemeToggle className="fixed right-4 top-4 z-10" />
         <FeudResultScreen
           teamAName={session.teamAName}
           teamBName={session.teamBName}
@@ -196,7 +198,8 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
     : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-white p-6 text-slate-900">
+    <div className="relative min-h-screen bg-gradient-to-b from-amber-50 dark:from-slate-950 via-white dark:via-slate-950 to-white dark:to-blue-950 p-6 text-slate-900 dark:text-slate-100">
+      <ThemeToggle className="fixed right-4 top-4 z-10" />
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
         <TeamScoreHeader
           teamAName={session.teamAName}
@@ -206,15 +209,15 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
           controllingTeam={currentRound.controllingTeam}
         />
 
-        <p className="text-sm text-slate-500">Ronda {currentRound.roundNumber}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Ronda {currentRound.roundNumber}</p>
 
         {finishedRound ? (
-          <div className="relative animate-[pop-in_0.35s_ease-out,celebrate-glow_1.8s_ease-in-out_infinite] space-y-4 overflow-hidden rounded-xl border border-amber-500/20 bg-white p-6 text-center shadow-xl">
+          <div className="relative animate-[pop-in_0.35s_ease-out,celebrate-glow_1.8s_ease-in-out_infinite] space-y-4 overflow-hidden rounded-xl border border-amber-500/20 bg-white p-6 dark:bg-slate-900/80 text-center shadow-xl">
             {finishedRound.wonBy && <Confetti />}
-            <p className="text-sm font-semibold uppercase tracking-wide text-amber-600">
+            <p className="text-sm font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
               Ronda {finishedRound.roundNumber} terminada
             </p>
-            <p className="text-xl text-slate-700">
+            <p className="text-xl text-slate-700 dark:text-slate-300">
               {finishedRound.wonBy
                 ? `¡${session[TEAM_NAME_FIELD[finishedRound.wonBy]]} se lleva ${finishedRound.pot} puntos! 🎉`
                 : "Ronda terminada"}
@@ -242,11 +245,11 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
             {displayRound && (displayRound.phase === "PLAYING" || displayRound.phase === "STEAL") && (
               <div
                 key={displayRound.id}
-                className="animate-[fadein_0.4s_ease-out] space-y-5 rounded-xl border border-amber-500/20 bg-white p-6 shadow-xl"
+                className="animate-[fadein_0.4s_ease-out] space-y-5 rounded-xl border border-amber-500/20 bg-white p-6 dark:bg-slate-900/80 shadow-xl"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-amber-600">
+                    <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
                       {displayRound.phase === "STEAL"
                         ? `Robo — el otro equipo tiene un intento`
                         : `${controllingTeamName} tiene el control`}
@@ -258,8 +261,8 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
                     <div
                       className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 font-mono text-2xl font-bold ${
                         turnSecondsLeft <= 5
-                          ? "border-red-500 text-red-600 [animation:timer-pulse_1s_ease-in-out_infinite]"
-                          : "border-amber-400 text-amber-700"
+                          ? "border-red-500 text-red-600 dark:text-red-400 [animation:timer-pulse_1s_ease-in-out_infinite]"
+                          : "border-amber-400 text-amber-700 dark:text-amber-300"
                       }`}
                     >
                       {turnSecondsLeft}
@@ -275,14 +278,14 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
                     type="button"
                     disabled={pending}
                     onClick={handleStrike}
-                    className="rounded border border-red-500 px-5 py-2 font-semibold text-red-600 hover:bg-red-700 hover:text-white disabled:opacity-40"
+                    className="rounded border border-red-500 px-5 py-2 font-semibold text-red-600 dark:text-red-400 hover:bg-red-700 hover:text-white disabled:opacity-40"
                   >
                     Marcar strike
                   </button>
                 </div>
 
-                <p className="text-sm text-slate-500">
-                  Bote de la ronda: <span className="font-mono text-amber-700">{displayRound.pot}</span>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  Bote de la ronda: <span className="font-mono text-amber-700 dark:text-amber-300">{displayRound.pot}</span>
                 </p>
               </div>
             )}
@@ -290,7 +293,7 @@ export function FeudGameScreen({ session }: { session: FeudSessionView }) {
         )}
 
         {error && (
-          <p className="rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700">
+          <p className="rounded border border-red-300 dark:border-red-500/40 bg-red-50 dark:bg-red-950/40 p-3 text-sm text-red-700 dark:text-red-300">
             {error}
           </p>
         )}

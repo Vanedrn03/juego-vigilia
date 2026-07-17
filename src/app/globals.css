@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Modo oscuro por clase (.dark en <html>), controlado por el botón de tema, no por el sistema. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+:root.dark {
+  --background: #020617;
+  --foreground: #f1f5f9;
 }
 
 @theme inline {

@@ -18,7 +18,7 @@ export default async function EditarPreguntaPage({
   return (
     <div>
       <BackLink href="/admin/preguntas" label="Volver a preguntas" />
-      <h1 className="mb-6 text-2xl font-bold text-amber-600">Editar pregunta</h1>
+      <h1 className="mb-6 text-2xl font-bold text-amber-600 dark:text-amber-400">Editar pregunta</h1>
       <QuestionForm
         action={boundAction}
         submitLabel="Guardar cambios"
