@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { isAdminAuthenticated } from "@/lib/auth/session";
+import { toRoundView } from "@/lib/feud/serialize";
 
 export async function POST(
   request: NextRequest,
@@ -20,6 +21,7 @@ export async function POST(
 
   const round = await prisma.feudSessionRound.findFirst({
     where: { id: roundId, sessionId },
+    include: { question: { include: { answers: true } } },
   });
 
   if (!round) {
@@ -34,5 +36,7 @@ export async function POST(
     data: { controllingTeam: team, phase: "PLAYING" },
   });
 
-  return NextResponse.json({ round: updated });
+  return NextResponse.json({
+    round: toRoundView({ ...updated, question: round.question }),
+  });
 }

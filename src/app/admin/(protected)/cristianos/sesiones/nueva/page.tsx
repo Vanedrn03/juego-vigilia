@@ -8,10 +8,10 @@ export default async function NuevaSesionCristianosPage() {
   return (
     <div className="max-w-2xl">
       <BackLink href="/admin/dashboard" label="Volver al panel" />
-      <h1 className="mb-6 text-2xl font-bold text-amber-400">
+      <h1 className="mb-6 text-2xl font-bold text-amber-600">
         Nueva partida — 100 Cristianos Dijeron
       </h1>
-      <p className="mb-4 text-sm text-slate-400">
+      <p className="mb-4 text-sm text-slate-500">
         {activeCount} pregunta(s) activas disponibles en el banco.
       </p>
       <NuevaFeudSesionForm maxRounds={Math.min(activeCount, 15)} />

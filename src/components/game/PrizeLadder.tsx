@@ -23,8 +23,8 @@ export function PrizeLadder({
                 isCurrent
                   ? "scale-105 bg-amber-500 font-bold text-slate-950 shadow-[0_0_16px_-2px_rgba(245,158,11,0.7)]"
                   : isPast
-                    ? "bg-amber-950 text-amber-300"
-                    : "bg-slate-900 text-slate-300",
+                    ? "bg-amber-100 text-amber-800"
+                    : "bg-slate-100 text-slate-700",
                 level.isCheckpoint && !isCurrent ? "ring-1 ring-amber-500/50" : "",
               ].join(" ")}
             >

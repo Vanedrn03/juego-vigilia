@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { isAdminAuthenticated } from "@/lib/auth/session";
 import { resolveRevealOutcome } from "@/lib/feud/stateMachine";
 import { finalizeFeudSessionIfDone } from "@/lib/feud/finalize";
+import { toRoundView } from "@/lib/feud/serialize";
 import type { FeudTeamKey } from "@/lib/feud/types";
 
 export async function POST(
@@ -56,7 +57,9 @@ export async function POST(
       where: { id: roundId },
       data: { revealedAnswerIds: Array.from(revealedIds), pot: newPot },
     });
-    return NextResponse.json({ round: updated });
+    return NextResponse.json({
+      round: toRoundView({ ...updated, question: round.question }),
+    });
   }
 
   const updated = await prisma.feudSessionRound.update({
@@ -77,5 +80,7 @@ export async function POST(
 
   await finalizeFeudSessionIfDone(sessionId);
 
-  return NextResponse.json({ round: updated });
+  return NextResponse.json({
+    round: toRoundView({ ...updated, question: round.question }),
+  });
 }

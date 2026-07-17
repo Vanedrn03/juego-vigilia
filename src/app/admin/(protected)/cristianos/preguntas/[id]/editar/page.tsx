@@ -21,7 +21,7 @@ export default async function EditarPreguntaCristianosPage({
   return (
     <div>
       <BackLink href="/admin/cristianos/preguntas" label="Volver a preguntas" />
-      <h1 className="mb-6 text-2xl font-bold text-amber-400">Editar pregunta de encuesta</h1>
+      <h1 className="mb-6 text-2xl font-bold text-amber-600">Editar pregunta de encuesta</h1>
       <FeudQuestionForm
         action={boundAction}
         submitLabel="Guardar cambios"

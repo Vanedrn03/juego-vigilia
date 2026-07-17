@@ -2,7 +2,7 @@ import type { FeudRoundView, FeudSessionView } from "./types";
 
 type AnswerRow = { id: string; text: string; points: number; rank: number };
 
-type RoundRow = {
+export type RoundRow = {
   id: string;
   roundNumber: number;
   phase: string;
@@ -24,7 +24,7 @@ type SessionRow = {
   rounds: RoundRow[];
 };
 
-function toRoundView(round: RoundRow): FeudRoundView {
+export function toRoundView(round: RoundRow): FeudRoundView {
   const revealedIds = new Set((round.revealedAnswerIds as string[] | null) ?? []);
   const showAll = round.phase === "DONE";
 

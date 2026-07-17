@@ -17,14 +17,14 @@ export function Board({
           type="button"
           disabled={disabled || a.revealed}
           onClick={() => onReveal(a.id)}
-          className={`flex h-14 items-center justify-between rounded-lg border px-4 text-lg transition disabled:cursor-not-allowed ${
+          className={`flex h-16 items-center justify-between rounded-lg border px-4 text-xl transition disabled:cursor-not-allowed ${
             a.revealed
-              ? "border-amber-400 bg-amber-500/10 text-amber-200"
-              : "border-slate-700 bg-slate-900 text-slate-500 hover:border-amber-400 hover:text-slate-200"
+              ? "animate-[flip-in_0.4s_ease-out] border-amber-400 bg-amber-500/10 text-amber-900"
+              : "border-slate-300 bg-slate-100 text-slate-500 hover:border-amber-400 hover:text-slate-900"
           }`}
         >
           <span className="flex items-center gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current text-sm font-bold">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-current text-sm font-bold">
               {a.rank}
             </span>
             <span>{a.revealed ? a.text : "?"}</span>

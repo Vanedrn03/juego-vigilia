@@ -7,6 +7,8 @@ import { PrizeLadder } from "@/components/game/PrizeLadder";
 import { OptionButton } from "@/components/game/OptionButton";
 import { LifelineBar } from "@/components/game/LifelineBar";
 import { ResultScreen } from "@/components/game/ResultScreen";
+import { Confetti } from "@/components/Confetti";
+import { playCelebration, playCorrect, playStrike, playTick, playWhoosh } from "@/lib/sound";
 
 type RevealResult = {
   isCorrect: boolean;
@@ -57,6 +59,7 @@ export function GameScreen({
   useEffect(() => {
     if (teamTimer === null) return;
     if (teamTimer <= 0) return;
+    if (teamTimer <= 5) playTick();
     const t = setTimeout(() => setTeamTimer((s) => (s !== null ? s - 1 : null)), 1000);
     return () => clearTimeout(t);
   }, [teamTimer]);
@@ -92,6 +95,12 @@ export function GameScreen({
         correctOption: data.correctOption,
         outcome: data.outcome,
       });
+      if (data.isCorrect) {
+        if (data.outcome === "WON") playCelebration();
+        else playCorrect();
+      } else {
+        playStrike();
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al enviar la respuesta");
     } finally {
@@ -100,6 +109,7 @@ export function GameScreen({
   }
 
   function handleContinue() {
+    playWhoosh();
     router.refresh();
   }
 
@@ -159,8 +169,9 @@ export function GameScreen({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-blue-950 p-6 text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 lg:flex-row">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-amber-50 via-white to-white p-6 text-slate-900">
+      {revealResult?.outcome === "WON" && <Confetti count={40} />}
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row">
         <div className="flex-1 space-y-6">
           <div className="flex flex-wrap gap-3">
             {session.participants.map((p) => (
@@ -169,11 +180,11 @@ export function GameScreen({
                 className={`rounded-lg border px-4 py-2 transition ${
                   p.id === activeParticipant.id
                     ? "border-amber-400 bg-amber-500/10 shadow-[0_0_20px_-4px_rgba(245,158,11,0.5)]"
-                    : "border-slate-800 bg-slate-900"
+                    : "border-slate-200 bg-slate-100"
                 }`}
               >
                 <p className="font-semibold">{p.name}</p>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {p.score.toLocaleString("es")} pts · {p.status}
                 </p>
               </div>
@@ -182,12 +193,12 @@ export function GameScreen({
 
           <div
             key={currentSQ.id}
-            className="animate-[fadein_0.4s_ease-out] rounded-xl border border-amber-500/20 bg-slate-900/80 p-6 shadow-xl"
+            className="animate-[fadein_0.4s_ease-out] rounded-xl border border-amber-500/20 bg-white p-6 shadow-xl"
           >
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-400">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-600">
               Nivel {currentSQ.step} · {activeParticipant.name}
             </p>
-            <h1 className="text-3xl font-bold leading-snug lg:text-4xl">{q.text}</h1>
+            <h1 className="text-4xl font-bold leading-snug lg:text-5xl">{q.text}</h1>
             {q.verseRef && (
               <p className="mt-2 text-sm text-slate-500">Referencia: {q.verseRef}</p>
             )}
@@ -219,19 +230,19 @@ export function GameScreen({
           />
 
           {leaderPanelOpen && (
-            <div className="rounded-lg border border-amber-500/40 bg-slate-900 p-4 text-sm text-amber-200">
+            <div className="rounded-lg border border-amber-500/40 bg-slate-100 p-4 text-sm text-amber-900">
               Un líder en la sala puede dar su opinión en voz alta antes de responder.
             </div>
           )}
 
           {teamTimer !== null && teamTimer > 0 && (
-            <div className="rounded-lg border border-amber-500/40 bg-slate-900 p-4 text-center text-3xl font-mono text-amber-300">
+            <div className="rounded-lg border border-amber-500/40 bg-slate-100 p-4 text-center text-4xl font-mono text-amber-700">
               {teamTimer}s para consultar con el equipo
             </div>
           )}
 
           {error && (
-            <p className="rounded border border-red-500/40 bg-red-950/40 p-3 text-sm text-red-300">
+            <p className="rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700">
               {error}
             </p>
           )}
@@ -251,7 +262,7 @@ export function GameScreen({
                   type="button"
                   disabled={pending}
                   onClick={handleWalkAway}
-                  className="rounded border border-slate-700 px-5 py-2 hover:border-amber-400 disabled:opacity-40"
+                  className="rounded border border-slate-300 px-5 py-2 hover:border-amber-400 disabled:opacity-40"
                 >
                   Retirarse con el puntaje actual
                 </button>

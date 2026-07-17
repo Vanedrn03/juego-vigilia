@@ -50,27 +50,27 @@ export function FeudQuestionForm({
       <input type="hidden" name="answerCount" value={rows.length} />
 
       <div>
-        <label className="mb-1 block text-sm text-slate-300">Pregunta de encuesta</label>
+        <label className="mb-1 block text-sm text-slate-700">Pregunta de encuesta</label>
         <textarea
           name="text"
           required
           defaultValue={defaults?.text}
           rows={2}
           placeholder="Ej. Nombra algo que la gente hace en la iglesia"
-          className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-white outline-none focus:border-amber-400"
+          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
         />
       </div>
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label className="block text-sm text-slate-300">
+          <label className="block text-sm text-slate-700">
             Respuestas ranqueadas (de la más popular a la menos popular)
           </label>
           <button
             type="button"
             onClick={addRow}
             disabled={rows.length >= 8}
-            className="rounded border border-amber-400 px-2 py-1 text-xs text-amber-300 hover:bg-amber-500 hover:text-slate-950 disabled:opacity-40"
+            className="rounded border border-amber-400 px-2 py-1 text-xs text-amber-700 hover:bg-amber-500 hover:text-slate-950 disabled:opacity-40"
           >
             + Agregar respuesta
           </button>
@@ -86,7 +86,7 @@ export function FeudQuestionForm({
                 onChange={(e) => updateRow(i, "text", e.target.value)}
                 required
                 placeholder="Respuesta"
-                className="flex-1 rounded border border-slate-700 bg-slate-800 px-3 py-2 text-white outline-none focus:border-amber-400"
+                className="flex-1 rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
               />
               <input
                 name={`answerPoints-${i}`}
@@ -96,13 +96,13 @@ export function FeudQuestionForm({
                 onChange={(e) => updateRow(i, "points", e.target.value)}
                 required
                 placeholder="Pts"
-                className="w-20 rounded border border-slate-700 bg-slate-800 px-3 py-2 text-white outline-none focus:border-amber-400"
+                className="w-20 rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:border-amber-400"
               />
               <button
                 type="button"
                 onClick={() => removeRow(i)}
                 disabled={rows.length <= 3}
-                className="shrink-0 text-red-400 hover:underline disabled:opacity-30"
+                className="shrink-0 text-red-600 hover:underline disabled:opacity-30"
               >
                 Eliminar
               </button>
@@ -111,17 +111,17 @@ export function FeudQuestionForm({
         </div>
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-slate-300">
+      <label className="flex items-center gap-2 text-sm text-slate-700">
         <input
           type="checkbox"
           name="active"
           defaultChecked={defaults?.active ?? true}
-          className="h-4 w-4 rounded border-slate-700 bg-slate-800"
+          className="h-4 w-4 rounded border-slate-300 bg-white"
         />
         Pregunta activa (disponible para partidas)
       </label>
 
-      {state?.error && <p className="text-sm text-red-400">{state.error}</p>}
+      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
 
       <button
         type="submit"

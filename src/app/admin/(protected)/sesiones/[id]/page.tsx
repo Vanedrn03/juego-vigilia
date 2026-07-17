@@ -19,12 +19,12 @@ export default async function SesionAdminPage({
   return (
     <div>
       <BackLink href="/admin/dashboard" label="Volver al panel" />
-      <h1 className="mb-2 text-2xl font-bold text-amber-400">
+      <h1 className="mb-2 text-2xl font-bold text-amber-600">
         Partida {session.mode === "TEAMS" ? "2 equipos" : "1 vs 1"}
       </h1>
-      <p className="mb-6 text-sm text-slate-400">Estado: {session.status}</p>
+      <p className="mb-6 text-sm text-slate-500">Estado: {session.status}</p>
 
-      <ul className="mb-6 divide-y divide-slate-800 rounded-lg border border-slate-800">
+      <ul className="mb-6 divide-y divide-slate-200 rounded-lg border border-slate-200">
         {session.participants.map((p) => (
           <li key={p.id} className="flex items-center justify-between px-4 py-3">
             <div>

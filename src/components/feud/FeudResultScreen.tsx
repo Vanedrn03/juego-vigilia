@@ -1,4 +1,9 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import { Confetti } from "@/components/Confetti";
+import { playCelebration } from "@/lib/sound";
 
 export function FeudResultScreen({
   teamAName,
@@ -19,9 +24,15 @@ export function FeudResultScreen({
     { name: teamBName, score: teamBScore },
   ].sort((a, b) => b.score - a.score);
 
+  useEffect(() => {
+    if (winner) playCelebration();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center gap-8 py-16 text-center">
-      <h1 className="text-3xl font-bold text-amber-400">Resultados finales</h1>
+    <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-8 overflow-hidden py-16 text-center">
+      {winner && <Confetti />}
+      <h1 className="text-4xl font-bold text-amber-600">Resultados finales</h1>
 
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         {teams.map((t) => (
@@ -30,19 +41,19 @@ export function FeudResultScreen({
             className={`rounded-lg border p-6 ${
               winner === t.name
                 ? "border-amber-400 bg-amber-500/10"
-                : "border-slate-800 bg-slate-900"
+                : "border-slate-200 bg-slate-100"
             }`}
           >
-            <p className="text-xl font-bold">{t.name}</p>
-            <p className="text-3xl font-mono text-amber-300">{t.score.toLocaleString("es")}</p>
+            <p className="text-2xl font-bold">{t.name}</p>
+            <p className="text-4xl font-mono text-amber-700">{t.score.toLocaleString("es")}</p>
           </div>
         ))}
       </div>
 
       {winner ? (
-        <p className="text-xl font-semibold text-amber-300">¡Felicidades {winner}! 🎉</p>
+        <p className="text-2xl font-semibold text-amber-700">¡Felicidades {winner}! 🎉</p>
       ) : (
-        <p className="text-xl font-semibold text-amber-300">¡Empate!</p>
+        <p className="text-2xl font-semibold text-amber-700">¡Empate!</p>
       )}
 
       <div className="flex flex-wrap justify-center gap-3">
@@ -54,7 +65,7 @@ export function FeudResultScreen({
         </Link>
         <Link
           href="/admin/dashboard"
-          className="rounded border border-slate-700 px-5 py-2 hover:border-amber-400"
+          className="rounded border border-slate-300 px-5 py-2 hover:border-amber-400"
         >
           Volver al panel
         </Link>

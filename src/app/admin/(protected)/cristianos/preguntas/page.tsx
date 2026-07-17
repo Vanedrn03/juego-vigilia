@@ -13,7 +13,7 @@ export default async function CristianosPreguntasPage() {
     <div>
       <BackLink href="/admin/dashboard" label="Volver al panel" />
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-amber-400">
+        <h1 className="text-2xl font-bold text-amber-600">
           Preguntas — 100 Cristianos Dijeron
         </h1>
         <Link
@@ -24,13 +24,13 @@ export default async function CristianosPreguntasPage() {
         </Link>
       </div>
 
-      <p className="mb-4 text-sm text-slate-400">{questions.length} pregunta(s)</p>
+      <p className="mb-4 text-sm text-slate-500">{questions.length} pregunta(s)</p>
 
       <div className="space-y-4">
         {questions.map((q) => (
           <div
             key={q.id}
-            className={`rounded-lg border border-slate-800 bg-slate-900 p-4 ${
+            className={`rounded-lg border border-slate-200 bg-slate-100 p-4 ${
               q.active ? "" : "opacity-50"
             }`}
           >
@@ -42,17 +42,17 @@ export default async function CristianosPreguntasPage() {
               <div className="flex flex-wrap gap-3 text-sm">
                 <Link
                   href={`/admin/cristianos/preguntas/${q.id}/editar`}
-                  className="text-amber-400 hover:underline"
+                  className="text-amber-600 hover:underline"
                 >
                   Editar
                 </Link>
                 <form action={toggleFeudQuestionActiveAction.bind(null, q.id, !q.active)}>
-                  <button type="submit" className="text-slate-300 hover:underline">
+                  <button type="submit" className="text-slate-700 hover:underline">
                     {q.active ? "Desactivar" : "Activar"}
                   </button>
                 </form>
                 <form action={deleteFeudQuestionAction.bind(null, q.id)}>
-                  <button type="submit" className="text-red-400 hover:underline">
+                  <button type="submit" className="text-red-600 hover:underline">
                     Eliminar
                   </button>
                 </form>
@@ -63,13 +63,13 @@ export default async function CristianosPreguntasPage() {
               {q.answers.map((a) => (
                 <li
                   key={a.id}
-                  className="flex items-center justify-between rounded bg-slate-800 px-3 py-1.5"
+                  className="flex items-center justify-between rounded bg-white px-3 py-1.5"
                 >
                   <span>
-                    <span className="mr-2 font-mono text-amber-400">{a.rank}.</span>
+                    <span className="mr-2 font-mono text-amber-600">{a.rank}.</span>
                     {a.text}
                   </span>
-                  <span className="font-mono text-slate-400">{a.points}</span>
+                  <span className="font-mono text-slate-500">{a.points}</span>
                 </li>
               ))}
             </ol>

@@ -12,10 +12,10 @@ export function FaceoffPrompt({
   onAssign: (team: "TEAM_A" | "TEAM_B") => void;
 }) {
   return (
-    <div className="space-y-4 rounded-xl border border-amber-500/20 bg-slate-900/80 p-6 text-center shadow-xl">
-      <p className="text-sm font-semibold uppercase tracking-wide text-amber-400">Duelo</p>
-      <h1 className="text-2xl font-bold lg:text-3xl">{questionText}</h1>
-      <p className="text-sm text-slate-400">
+    <div className="space-y-4 rounded-xl border border-amber-500/20 bg-white p-6 text-center shadow-xl">
+      <p className="text-sm font-semibold uppercase tracking-wide text-amber-600">Duelo</p>
+      <h1 className="text-3xl font-bold lg:text-4xl">{questionText}</h1>
+      <p className="text-sm text-slate-500">
         Un jugador de cada equipo responde en voz alta. ¿Quién ganó el control del tablero?
       </p>
       <div className="flex flex-wrap justify-center gap-4 pt-2">

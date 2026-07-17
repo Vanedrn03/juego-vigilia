@@ -9,15 +9,15 @@ export default async function EscaleraPage() {
   return (
     <div>
       <BackLink href="/admin/dashboard" label="Volver al panel" />
-      <h1 className="mb-2 text-2xl font-bold text-amber-400">Escalera de premios</h1>
-      <p className="mb-6 text-sm text-slate-400">
+      <h1 className="mb-2 text-2xl font-bold text-amber-600">Escalera de premios</h1>
+      <p className="mb-6 text-sm text-slate-500">
         Marca los niveles &quot;checkpoint&quot; (casillas de seguridad): si un participante
         falla después de pasarlos, se queda con esos puntos garantizados.
       </p>
 
-      <form action={updateLadderAction} className="overflow-x-auto rounded-lg border border-slate-800">
+      <form action={updateLadderAction} className="overflow-x-auto rounded-lg border border-slate-200">
         <table className="w-full text-sm">
-          <thead className="bg-slate-900 text-left text-slate-400">
+          <thead className="bg-slate-100 text-left text-slate-500">
             <tr>
               <th className="px-3 py-2">Nivel</th>
               <th className="px-3 py-2">Etiqueta</th>
@@ -25,7 +25,7 @@ export default async function EscaleraPage() {
               <th className="px-3 py-2">Checkpoint</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="divide-y divide-slate-200">
             {Array.from({ length: 15 }, (_, i) => 15 - i).map((step) => {
               const level = byStep.get(step);
               return (
@@ -35,7 +35,7 @@ export default async function EscaleraPage() {
                     <input
                       name={`label-${step}`}
                       defaultValue={level?.label ?? ""}
-                      className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+                      className="w-full rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
                     />
                   </td>
                   <td className="px-3 py-2">
@@ -44,7 +44,7 @@ export default async function EscaleraPage() {
                       type="number"
                       min={0}
                       defaultValue={level?.points ?? 0}
-                      className="w-32 rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+                      className="w-32 rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
                     />
                   </td>
                   <td className="px-3 py-2">

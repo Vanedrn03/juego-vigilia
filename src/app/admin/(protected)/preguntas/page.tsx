@@ -39,7 +39,7 @@ export default async function PreguntasPage({
     <div>
       <BackLink href="/admin/dashboard" label="Volver al panel" />
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-amber-400">Banco de preguntas</h1>
+        <h1 className="text-2xl font-bold text-amber-600">Banco de preguntas</h1>
         <Link
           href="/admin/preguntas/nueva"
           className="rounded bg-amber-500 px-4 py-2 font-semibold text-slate-950 hover:bg-amber-400"
@@ -50,19 +50,19 @@ export default async function PreguntasPage({
 
       <form className="mb-6 flex flex-wrap items-end gap-3 text-sm" method="get">
         <div>
-          <label className="mb-1 block text-slate-400">Buscar</label>
+          <label className="mb-1 block text-slate-500">Buscar</label>
           <input
             name="q"
             defaultValue={sp.q}
-            className="rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+            className="rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
           />
         </div>
         <div>
-          <label className="mb-1 block text-slate-400">Categoría</label>
+          <label className="mb-1 block text-slate-500">Categoría</label>
           <select
             name="category"
             defaultValue={sp.category ?? ""}
-            className="rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+            className="rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
           >
             <option value="">Todas</option>
             {CATEGORIES.map((c) => (
@@ -73,33 +73,33 @@ export default async function PreguntasPage({
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-slate-400">Dif. mín.</label>
+          <label className="mb-1 block text-slate-500">Dif. mín.</label>
           <input
             name="minDifficulty"
             type="number"
             min={1}
             max={15}
             defaultValue={sp.minDifficulty}
-            className="w-16 rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+            className="w-16 rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
           />
         </div>
         <div>
-          <label className="mb-1 block text-slate-400">Dif. máx.</label>
+          <label className="mb-1 block text-slate-500">Dif. máx.</label>
           <input
             name="maxDifficulty"
             type="number"
             min={1}
             max={15}
             defaultValue={sp.maxDifficulty}
-            className="w-16 rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+            className="w-16 rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
           />
         </div>
         <div>
-          <label className="mb-1 block text-slate-400">Estado</label>
+          <label className="mb-1 block text-slate-500">Estado</label>
           <select
             name="active"
             defaultValue={sp.active ?? ""}
-            className="rounded border border-slate-700 bg-slate-800 px-2 py-1 text-white"
+            className="rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
           >
             <option value="">Todas</option>
             <option value="true">Activas</option>
@@ -108,17 +108,17 @@ export default async function PreguntasPage({
         </div>
         <button
           type="submit"
-          className="rounded border border-slate-700 px-3 py-1 hover:border-amber-400"
+          className="rounded border border-slate-300 px-3 py-1 hover:border-amber-400"
         >
           Filtrar
         </button>
       </form>
 
-      <p className="mb-3 text-sm text-slate-400">{questions.length} pregunta(s)</p>
+      <p className="mb-3 text-sm text-slate-500">{questions.length} pregunta(s)</p>
 
-      <div className="overflow-x-auto rounded-lg border border-slate-800">
+      <div className="overflow-x-auto rounded-lg border border-slate-200">
         <table className="w-full text-sm">
-          <thead className="bg-slate-900 text-left text-slate-400">
+          <thead className="bg-slate-100 text-left text-slate-500">
             <tr>
               <th className="px-3 py-2">Dif.</th>
               <th className="px-3 py-2">Categoría</th>
@@ -127,7 +127,7 @@ export default async function PreguntasPage({
               <th className="px-3 py-2">Acciones</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="divide-y divide-slate-200">
             {questions.map((q) => (
               <tr key={q.id} className={q.active ? "" : "opacity-50"}>
                 <td className="px-3 py-2 font-mono">{q.difficulty}</td>
@@ -138,19 +138,19 @@ export default async function PreguntasPage({
                   <div className="flex flex-wrap gap-2">
                     <Link
                       href={`/admin/preguntas/${q.id}/editar`}
-                      className="text-amber-400 hover:underline"
+                      className="text-amber-600 hover:underline"
                     >
                       Editar
                     </Link>
                     <form
                       action={toggleQuestionActiveAction.bind(null, q.id, !q.active)}
                     >
-                      <button type="submit" className="text-slate-300 hover:underline">
+                      <button type="submit" className="text-slate-700 hover:underline">
                         {q.active ? "Desactivar" : "Activar"}
                       </button>
                     </form>
                     <form action={deleteQuestionAction.bind(null, q.id)}>
-                      <button type="submit" className="text-red-400 hover:underline">
+                      <button type="submit" className="text-red-600 hover:underline">
                         Eliminar
                       </button>
                     </form>
